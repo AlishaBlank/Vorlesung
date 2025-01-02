@@ -16,21 +16,33 @@
                 <Button Content="Hinzufügen" Click="ToDosHinzufuegen"/>
                 <Button Content="Löschen" Click="ToDosLoeschen"/>
                 <Button Content="Bearbeiten" Click="ToDosBearbeiten"/>
-                <Button Content="Erledigt" Click="ToDosErledigt" />
             </WrapPanel>
 
             <!-- ToDo-Liste -->
             <ListBox x:Name="ToDoList" Height="300" Margin="10">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding}" Value="[Erledigt]     ">
-                                <Setter Property="Background" Value="Gray"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsCompleted}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Task}" Margin="5,0,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextDecorations" Value="None"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
+
+
 
         </StackPanel>
     </Grid>

@@ -22,11 +22,17 @@ namespace Vorlesung
     /// </summary>
     public partial class ToDo : Page
     {
-        public ObservableCollection<string> ToDoTask {  get; set; }
+        public class ToDoItem
+        {
+            public string Task { get; set; }
+            public bool IsCompleted { get; set; }
+        }
+
+        public ObservableCollection<ToDoItem> ToDoTask {  get; set; }
         public ToDo()
         {
             InitializeComponent();
-            ToDoTask = new ObservableCollection<string>();
+            ToDoTask = new ObservableCollection<ToDoItem>();
             //Liste mit Elementen verknüpfen
             ToDoList.ItemsSource = ToDoTask;
         }
@@ -36,15 +42,17 @@ namespace Vorlesung
             var dialog = new TextInputDialog("Neue Aufgabe Hinzufügen:");
             if (dialog.ShowDialog() == true)
             {
-                ToDoTask.Add(dialog.InputText);
+                // Neues ToDoItem erstellen und hinzufügen
+                ToDoTask.Add(new ToDoItem { Task = dialog.InputText, IsCompleted = false });
             }
         }
 
+
         private void ToDosLoeschen(object sender, RoutedEventArgs e)
         {
-            if (ToDoList.SelectedItem != null)
+            if (ToDoList.SelectedItem is ToDoItem selectedItem)
             {
-                ToDoTask.Remove(ToDoList.SelectedItem.ToString());
+                ToDoTask.Remove(selectedItem);
             }
             else
             {
@@ -52,33 +60,21 @@ namespace Vorlesung
             }
         }
 
+
         private void ToDosBearbeiten(object sender, RoutedEventArgs e)
         {
-            if (ToDoList.SelectedItem != null)
+            if (ToDoList.SelectedItem is ToDoItem selectedItem)
             {
-                var dialog = new TextInputDialog("Aufgabe bearbeiten:", ToDoList.SelectedItem.ToString());
+                var dialog = new TextInputDialog("Aufgabe bearbeiten:", selectedItem.Task);
                 if (dialog.ShowDialog() == true)
                 {
-                    int index = ToDoTask.IndexOf(ToDoList.SelectedItem.ToString());
-                    ToDoTask[index] = dialog.InputText;
+                    selectedItem.Task = dialog.InputText;
+                    ToDoList.Items.Refresh();
                 }
             }
             else
             {
                 MessageBox.Show("Bitte wähle eine Aufgabe aus, die bearbeitet werden soll.", "Hinweis", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
-        private void ToDosErledigt(object sender, RoutedEventArgs e)
-        {
-            if (ToDoList.SelectedItem != null)
-            {
-                int index = ToDoTask.IndexOf(ToDoList.SelectedItem.ToString());
-                ToDoTask[index] = "[Erledigt]     " + ToDoTask[index];
-            }
-            else
-            {
-                MessageBox.Show("Bitte eine Aufgabe auswählen, die als `Erledigt` markiert werden soll");
             }
         }
     }
