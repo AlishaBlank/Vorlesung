@@ -68,5 +68,18 @@ namespace Vorlesung
                 MessageBox.Show("Bitte wähle eine Aufgabe aus, die bearbeitet werden soll.", "Hinweis", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        private void ToDosErledigt(object sender, RoutedEventArgs e)
+        {
+            if (ToDoList.SelectedItem != null)
+            {
+                int index = ToDoTask.IndexOf(ToDoList.SelectedItem.ToString());
+                ToDoTask[index] = "[Erledigt]     " + ToDoTask[index];
+            }
+            else
+            {
+                MessageBox.Show("Bitte eine Aufgabe auswählen, die als `Erledigt` markiert werden soll");
+            }
+        }
     }
 }

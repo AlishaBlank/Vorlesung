@@ -12,14 +12,25 @@
         <StackPanel>
             <Label Content="Dies sind die ToDo´s!" FontSize="20"/>
 
-            <StackPanel Orientation="Horizontal">
+            <WrapPanel Orientation="Horizontal" >
                 <Button Content="Hinzufügen" Click="ToDosHinzufuegen"/>
                 <Button Content="Löschen" Click="ToDosLoeschen"/>
                 <Button Content="Bearbeiten" Click="ToDosBearbeiten"/>
-            </StackPanel>
+                <Button Content="Erledigt" Click="ToDosErledigt" />
+            </WrapPanel>
 
             <!-- ToDo-Liste -->
-            <ListBox x:Name="ToDoList" Height="300" Margin="10"/>
+            <ListBox x:Name="ToDoList" Height="300" Margin="10">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding}" Value="[Erledigt]     ">
+                                <Setter Property="Background" Value="Gray"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
 
         </StackPanel>
     </Grid>
