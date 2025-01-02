@@ -22,6 +22,7 @@ namespace Vorlesung
     public partial class Module : Page
     {
         ObservableCollection<Noteneintragung> NotenEintragung = new ObservableCollection<Noteneintragung>();
+
         public Module()
         {
             InitializeComponent();
@@ -33,37 +34,48 @@ namespace Vorlesung
             var dialog = new NoteneintragungDialog();
             if (dialog.ShowDialog() == true)
             {
-                NotenEintragung.Add(new Noteneintragung
+                var neueEintragung = new Noteneintragung
                 {
                     Fach = dialog.Fach,
                     Note = dialog.Note,
-                    Kommentar = dialog.Kommentar,
-                });
+                    ECTS = dialog.ECTS // ECTS Punkt statt Kommentar
+                };
+                NotenEintragung.Add(neueEintragung);
+                UpdateECTSSum();
             }
         }
 
-            private void NoteLoeschen(object sender, RoutedEventArgs e)
+        private void NoteLoeschen(object sender, RoutedEventArgs e)
+        {
+            if (NotenListe.SelectedItem is Noteneintragung selectedEntry)
             {
-                if (NotenListe.SelectedItem is Noteneintragung selectedEntry)
-                {
-                    NotenEintragung.Remove(selectedEntry);
-                }
+                NotenEintragung.Remove(selectedEntry);
+                UpdateECTSSum();
             }
+        }
 
-            private void NoteBearbeiten(object sender, RoutedEventArgs e)
+        private void NoteBearbeiten(object sender, RoutedEventArgs e)
+        {
+            if (NotenListe.SelectedItem is Noteneintragung selectedEntry)
             {
-                if (NotenListe.SelectedItem is Noteneintragung selectedEntry)
+                var dialog = new NoteneintragungDialog(selectedEntry.Fach, selectedEntry.Note, selectedEntry.ECTS);
+                if (dialog.ShowDialog() == true)
                 {
-                    var dialog = new NoteneintragungDialog(selectedEntry.Fach, selectedEntry.Note, selectedEntry.Kommentar);
-                    if (dialog.ShowDialog() == true)
-                    {
-                        selectedEntry.Fach = dialog.Fach;
-                        selectedEntry.Note = dialog.Note;
-                        selectedEntry.Kommentar = dialog.Kommentar;
-                        NotenListe.Items.Refresh();
-                    }
+                    selectedEntry.Fach = dialog.Fach;
+                    selectedEntry.Note = dialog.Note;
+                    selectedEntry.ECTS = dialog.ECTS; // ECTS Punkt anpassen
+                    NotenListe.Items.Refresh();
+                    UpdateECTSSum();
                 }
             }
+        }
+
+        // Methode zur Berechnung und Anzeige der Summe der ECTS-Punkte
+        private void UpdateECTSSum()
+        {
+            int summe = NotenEintragung.Sum(ne => ne.ECTS);
+            SummeECTS.Content = $"Summe ECTS: {summe}";
         }
     }
+}
 

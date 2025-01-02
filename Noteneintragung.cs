@@ -11,6 +11,6 @@ namespace Vorlesung
     {
         public string Fach {  get; set; }
         public double Note { get; set; }
-        public string Kommentar {  get; set; }
+        public int ECTS {  get; set; }
     }
 }

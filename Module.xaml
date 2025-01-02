@@ -25,10 +25,13 @@
                         <GridView>
                             <GridViewColumn Header="Fach" DisplayMemberBinding="{Binding Fach}" Width="180" />
                             <GridViewColumn Header="Note" DisplayMemberBinding="{Binding Note}" Width="90" />
-                            <GridViewColumn Header="Kommentar" DisplayMemberBinding="{Binding Kommentar}" Width="90"/>
+                            <GridViewColumn Header="ECTS" DisplayMemberBinding="{Binding ECTS}" Width="90"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
+
+                <Label Content="Summe ECTS: 0" x:Name="SummeECTS" FontSize="16" Margin="10"/>
+
             </StackPanel>
         </StackPanel>
     </Grid>

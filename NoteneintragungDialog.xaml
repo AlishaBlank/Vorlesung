@@ -20,8 +20,8 @@
         <TextBlock Text="Note:" Grid.Row="1" VerticalAlignment="Center"/>
         <TextBox x:Name="NoteEingabe" Grid.Row="1" Margin="80,0,0,0"/>
 
-        <TextBlock Text="Kommentar:" Grid.Row="2" VerticalAlignment="Center"/>
-        <TextBox x:Name="KommentarEingabe" Grid.Row="2" Margin="80,0,0,0"/>
+        <TextBlock Text="ECTS:" Grid.Row="2" VerticalAlignment="Center"/>
+        <TextBox x:Name="ECTSEingabe" Grid.Row="2" Margin="80,0,0,0" />
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
             <Button Content="OK" Width="75" Margin="5" Click="OkButton_Click"/>

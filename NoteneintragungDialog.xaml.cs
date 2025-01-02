@@ -21,23 +21,24 @@ namespace Vorlesung
     {
         public string Fach => FachEingabe.Text;
         public double Note => double.TryParse(NoteEingabe.Text, out var result) ? result : 0;
-        public string Kommentar => KommentarEingabe.Text;
-        public NoteneintragungDialog(string fach = "", double note = 0, string kommentar = "")
+        public int ECTS => int.TryParse(ECTSEingabe.Text, out var result) ? result : 0; // ECTS statt Kommentar
+
+        public NoteneintragungDialog(string fach = "", double note = 0, int ects = 0)
         {
             InitializeComponent();
             FachEingabe.Text = fach;
             NoteEingabe.Text = note.ToString("F1");
-            KommentarEingabe.Text = kommentar;
+            ECTSEingabe.Text = ects.ToString(); // Setze die ECTS im Dialog
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            DialogResult = true; // Bestätige den Dialog
         }
 
         private void AbbrechenButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult= false;
+            DialogResult = false; // Schließe den Dialog ohne Änderungen
         }
     }
 }
